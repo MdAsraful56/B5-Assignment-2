@@ -35,32 +35,69 @@ CREATE TABLE sightings (
 
 -- Insert sample data into the all tables  
 
-
 INSERT INTO rangers (name, region) VALUES
-('Alice Johnson', 'Sundarbans'),
-('Bob Smith', 'Chittagong Hill Tracts'),
-('Charlie Brown', 'Sylhet Forest'),
-('Diana Prince', 'Barind Tract'),
-('Ethan Ray', 'Haor Basin'),
-('Farah Ahmed', 'Madhupur Jungle');
+('Alice Green', 'Northern Hills'),
+('Bob White', 'River Delta'),
+('Carol King', 'Mountain Range');
 
 
 INSERT INTO species (common_name, scientific_name, discovery_date, conservation_status) VALUES
+('Snow Leopard', 'Panthera uncia', '1775-01-01', 'Endangered'),
 ('Bengal Tiger', 'Panthera tigris tigris', '1758-01-01', 'Endangered'),
-('Asian Elephant', 'Elephas maximus', '1758-01-01', 'Endangered'),
-('Hoolock Gibbon', 'Hoolock hoolock', '1771-01-01', 'Endangered'),
-('Fishing Cat', 'Prionailurus viverrinus', '1833-01-01', 'Vulnerable'),
-('Indian Pangolin', 'Manis crassicaudata', '1825-01-01', 'Endangered'),
-('Oriental Pied Hornbill', 'Anthracoceros albirostris', '1786-01-01', 'Least Concern');
-
-
-INSERT INTO sightings (species_id, ranger_id, sighting_time, location, notes) VALUES
-(1, 1, '2024-04-15 06:45:00', 'Sundarbans Core Zone', 'Fresh paw prints and scratch marks found'),
-(2, 5, '2024-04-18 17:30:00', 'Kaptai National Park', 'Elephant herd crossing a stream'),
-(6, 3, '2024-04-20 08:10:00', 'Lawachara Rainforest', 'Gibbon calls recorded at dawn'),
-(4, 6, '2024-04-22 19:00:00', 'Hail Haor Wetlands', 'Fishing cat spotted near water edge'),
-(3, 5, '2024-04-25 05:55:00', 'Madhupur Forest', 'Burrow found, likely pangolin habitat'),
-(6, 4, '2024-04-28 07:25:00', 'Rema-Kalenga Reserve', 'Hornbill pair nesting in tall tree');
+('Red Panda', 'Ailurus fulgens', '1825-01-01', 'Vulnerable'),
+('Asiatic Elephant', 'Elephas maximus indicus', '1758-01-01', 'Endangered');
 
 
 
+INSERT INTO sightings (species_id, ranger_id, location, sighting_time, notes) VALUES
+(1, 1, 'Peak Ridge', '2024-05-10 07:45:00', 'Camera trap image captured'),
+(2, 2, 'Bankwood Area', '2024-05-12 16:20:00', 'Juvenile seen'),
+(3, 3, 'Bamboo Grove East', '2024-05-15 09:10:00', 'Feeding observed'),
+(1, 2, 'Snowfall Pass', '2024-05-18 18:30:00', NULL);
+
+
+-- show all tables data 
+
+SELECT * FROM rangers;
+SELECT * FROM species;
+SELECT * FROM sightings;
+
+
+
+-- let's start problem solving 
+
+
+
+-- Problem: - 01
+INSERT INTO rangers (name, region) VALUES
+('Derek Fox', 'Coastal Plains');
+
+
+
+-- Problem: - 02
+
+SELECT COUNT(*)  AS unique_species_count FROM species
+    GROUP BY species_id;
+--  Count unique species ever sighted.
+
+
+
+
+-- Problem: - 03
+SELECT * FROM sightings 
+    WHERE location LIKE '%Pass%';
+
+
+
+-- Problem: - 04
+SELECT name, COUNT(*) AS total_sightings FROM sightings
+    JOIN rangers ON sightings.ranger_id = rangers.ranger_id
+    GROUP BY name
+    ORDER BY total_sightings DESC;
+
+
+
+
+
+
+-- Problem: - 05
