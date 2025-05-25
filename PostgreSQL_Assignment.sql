@@ -137,3 +137,4 @@ DELETE FROM rangers
         WHERE ranger_id IS NOT NULL
     );
 
+
