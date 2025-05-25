@@ -73,19 +73,39 @@ INSERT INTO rangers (name, region) VALUES
 ('Derek Fox', 'Coastal Plains');
 
 
-
 -- Problem: - 02
-
-SELECT COUNT(*)  AS unique_species_count FROM species
-    GROUP BY species_id;
---  Count unique species ever sighted.
-
-
+SELECT COUNT(*) AS unique_species_count FROM species
+    WHERE conservation_status = 'Endangered';
 
 
 -- Problem: - 03
 SELECT * FROM sightings 
     WHERE location LIKE '%Pass%';
+
+
+
+
+-- Done ------------------------------
+
+
+
+
+
+
+
+
+
+
+
+SELECT COUNT(*)  AS unique_species_count FROM sightings 
+    GROUP BY species_id;
+--  Count unique species ever sighted.
+
+SELECT COUNT(sightings) AS unique_species_count FROM sightings
+    WHERE ;
+
+
+
 
 
 
@@ -101,3 +121,30 @@ SELECT name, COUNT(*) AS total_sightings FROM sightings
 
 
 -- Problem: - 05
+
+
+
+-- Problem: - 06
+
+SELECT * FROM sightings LIMIT 2
+    JOIN rangers USING (ranger_id)
+    ORDER BY sighting_time DESC ;
+
+
+
+
+
+
+
+
+-- Problem: - 08
+
+SELECT sighting_id,CASE
+    WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
+    WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+    ELSE 'Evening'
+    END AS time_of_day
+FROM sightings;
+
+SELECT sighting_id FROM sightings
+    WHERE 
