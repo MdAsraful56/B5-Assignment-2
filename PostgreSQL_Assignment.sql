@@ -83,6 +83,27 @@ SELECT * FROM sightings
     WHERE location LIKE '%Pass%';
 
 
+-- Problem: - 04
+SELECT name, COUNT(*) AS total_sightings FROM sightings
+    JOIN rangers USING (ranger_id)
+    GROUP BY name
+    ORDER BY total_sightings DESC;
+
+
+-- Problem: - 05
+SELECT common_name FROM species
+    WHERE species_id NOT IN (
+        SELECT species_id FROM sightings
+    );
+
+
+-- Problem: - 06
+SELECT common_name, sighting_time, name FROM sightings
+    JOIN rangers USING (ranger_id) 
+    JOIN species USING (species_id)
+    ORDER BY sighting_time DESC LIMIT 2;
+
+
 
 
 -- Done ------------------------------
@@ -90,45 +111,10 @@ SELECT * FROM sightings
 
 
 
+-- Problem: - 07
 
 
 
-
-
-
-
-SELECT COUNT(*)  AS unique_species_count FROM sightings 
-    GROUP BY species_id;
---  Count unique species ever sighted.
-
-SELECT COUNT(sightings) AS unique_species_count FROM sightings
-    WHERE ;
-
-
-
-
-
-
--- Problem: - 04
-SELECT name, COUNT(*) AS total_sightings FROM sightings
-    JOIN rangers ON sightings.ranger_id = rangers.ranger_id
-    GROUP BY name
-    ORDER BY total_sightings DESC;
-
-
-
-
-
-
--- Problem: - 05
-
-
-
--- Problem: - 06
-
-SELECT * FROM sightings LIMIT 2
-    JOIN rangers USING (ranger_id)
-    ORDER BY sighting_time DESC ;
 
 
 
