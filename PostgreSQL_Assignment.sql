@@ -38,7 +38,9 @@ CREATE TABLE sightings (
 INSERT INTO rangers (name, region) VALUES
 ('Alice Green', 'Northern Hills'),
 ('Bob White', 'River Delta'),
-('Carol King', 'Mountain Range');
+('Carol King', 'Mountain Range'),
+('Ashraful', 'Forest Edge');
+
 
 
 INSERT INTO species (common_name, scientific_name, discovery_date, conservation_status) VALUES
@@ -53,7 +55,8 @@ INSERT INTO sightings (species_id, ranger_id, location, sighting_time, notes) VA
 (1, 1, 'Peak Ridge', '2024-05-10 07:45:00', 'Camera trap image captured'),
 (2, 2, 'Bankwood Area', '2024-05-12 16:20:00', 'Juvenile seen'),
 (3, 3, 'Bamboo Grove East', '2024-05-15 09:10:00', 'Feeding observed'),
-(1, 2, 'Snowfall Pass', '2024-05-18 18:30:00', NULL);
+(1, 2, 'Snowfall Pass', '2024-05-18 18:30:00', NULL),
+(2, NULL, 'Elephant Valley', '2024-05-20 11:00:00', 'Herd of elephants spotted');
 
 
 -- show all tables data 
@@ -73,14 +76,17 @@ INSERT INTO rangers (name, region) VALUES
 ('Derek Fox', 'Coastal Plains');
 
 
+
 -- Problem: - 02
 SELECT COUNT(*) AS unique_species_count FROM species
     WHERE conservation_status = 'Endangered';
 
 
+
 -- Problem: - 03
 SELECT * FROM sightings 
     WHERE location LIKE '%Pass%';
+
 
 
 -- Problem: - 04
@@ -90,11 +96,13 @@ SELECT name, COUNT(*) AS total_sightings FROM sightings
     ORDER BY total_sightings DESC;
 
 
+
 -- Problem: - 05
 SELECT common_name FROM species
     WHERE species_id NOT IN (
         SELECT species_id FROM sightings
     );
+
 
 
 -- Problem: - 06
@@ -105,26 +113,14 @@ SELECT common_name, sighting_time, name FROM sightings
 
 
 
-
--- Done ------------------------------
-
-
-
-
 -- Problem: - 07
-
-
-
-
-
-
-
-
+UPDATE species 
+    SET conservation_status = 'Historic'
+    WHERE discovery_date < '1800-01-01';
 
 
 
 -- Problem: - 08
-
 SELECT sighting_id,CASE
     WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
     WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
@@ -132,5 +128,12 @@ SELECT sighting_id,CASE
     END AS time_of_day
 FROM sightings;
 
-SELECT sighting_id FROM sightings
-    WHERE 
+
+
+-- Problem: - 09
+DELETE FROM rangers
+    WHERE ranger_id NOT IN (
+    SELECT ranger_id FROM sightings
+        WHERE ranger_id IS NOT NULL
+    );
+
